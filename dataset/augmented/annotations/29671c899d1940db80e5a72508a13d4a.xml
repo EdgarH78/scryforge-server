@@ -1,0 +1,21 @@
+<annotation>
+<folder>images</folder>
+<filename>29671c899d1940db80e5a72508a13d4a.jpg</filename>
+<source>
+<database>MyDatabase</database>
+<annotation>COCO2017</annotation>
+<image>flickr</image>
+<flickrid>NULL</flickrid>
+<annotator>1</annotator>
+</source>
+<owner>
+<flickrid>NULL</flickrid>
+<name>Label Studio</name>
+</owner>
+<size>
+<width>300</width>
+<height>251</height>
+<depth>3</depth>
+</size>
+<segmented>0</segmented>
+<object><name>yellow_night_blue</name><pose>Unspecified</pose><truncated>0</truncated><difficult>0</difficult><bndbox><xmin>194</xmin><ymin>87</ymin><xmax>217</xmax><ymax>110</ymax></bndbox></object><object><name>black</name><pose>Unspecified</pose><truncated>0</truncated><difficult>0</difficult><bndbox><xmin>114</xmin><ymin>74</ymin><xmax>138</xmax><ymax>97</ymax></bndbox></object><object><name>white</name><pose>Unspecified</pose><truncated>0</truncated><difficult>0</difficult><bndbox><xmin>140</xmin><ymin>144</ymin><xmax>163</xmax><ymax>167</ymax></bndbox></object><object><name>lime_green_violet</name><pose>Unspecified</pose><truncated>0</truncated><difficult>0</difficult><bndbox><xmin>98</xmin><ymin>109</ymin><xmax>121</xmax><ymax>132</ymax></bndbox></object></annotation>

@@ -1,0 +1,21 @@
+<annotation>
+<folder>images</folder>
+<filename>774ccc1e36df403898f867673173fcb6.jpg</filename>
+<source>
+<database>MyDatabase</database>
+<annotation>COCO2017</annotation>
+<image>flickr</image>
+<flickrid>NULL</flickrid>
+<annotator>1</annotator>
+</source>
+<owner>
+<flickrid>NULL</flickrid>
+<name>Label Studio</name>
+</owner>
+<size>
+<width>363</width>
+<height>241</height>
+<depth>3</depth>
+</size>
+<segmented>0</segmented>
+<object><name>giant_red_octopus</name><pose>Unspecified</pose><truncated>0</truncated><difficult>0</difficult><bndbox><xmin>230</xmin><ymin>49</ymin><xmax>252</xmax><ymax>77</ymax></bndbox></object><object><name>black</name><pose>Unspecified</pose><truncated>0</truncated><difficult>0</difficult><bndbox><xmin>136</xmin><ymin>82</ymin><xmax>159</xmax><ymax>105</ymax></bndbox></object><object><name>brown_turquoise</name><pose>Unspecified</pose><truncated>0</truncated><difficult>0</difficult><bndbox><xmin>172</xmin><ymin>164</ymin><xmax>195</xmax><ymax>187</ymax></bndbox></object><object><name>orange</name><pose>Unspecified</pose><truncated>0</truncated><difficult>0</difficult><bndbox><xmin>257</xmin><ymin>155</ymin><xmax>280</xmax><ymax>178</ymax></bndbox></object><object><name>green</name><pose>Unspecified</pose><truncated>0</truncated><difficult>0</difficult><bndbox><xmin>80</xmin><ymin>141</ymin><xmax>102</xmax><ymax>164</ymax></bndbox></object><object><name>white</name><pose>Unspecified</pose><truncated>0</truncated><difficult>0</difficult><bndbox><xmin>287</xmin><ymin>92</ymin><xmax>310</xmax><ymax>115</ymax></bndbox></object><object><name>blue</name><pose>Unspecified</pose><truncated>0</truncated><difficult>0</difficult><bndbox><xmin>74</xmin><ymin>70</ymin><xmax>97</xmax><ymax>93</ymax></bndbox></object></annotation>

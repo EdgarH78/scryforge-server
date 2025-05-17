@@ -1,0 +1,21 @@
+<annotation>
+<folder>images</folder>
+<filename>009c27ebc7bd45e6a5ea1582e303078f.jpg</filename>
+<source>
+<database>MyDatabase</database>
+<annotation>COCO2017</annotation>
+<image>flickr</image>
+<flickrid>NULL</flickrid>
+<annotator>1</annotator>
+</source>
+<owner>
+<flickrid>NULL</flickrid>
+<name>Label Studio</name>
+</owner>
+<size>
+<width>300</width>
+<height>208</height>
+<depth>3</depth>
+</size>
+<segmented>0</segmented>
+<object><name>red</name><pose>Unspecified</pose><truncated>0</truncated><difficult>0</difficult><bndbox><xmin>78</xmin><ymin>116</ymin><xmax>130</xmax><ymax>163</ymax></bndbox></object><object><name>yellow</name><pose>Unspecified</pose><truncated>0</truncated><difficult>0</difficult><bndbox><xmin>0</xmin><ymin>111</ymin><xmax>13</xmax><ymax>146</ymax></bndbox></object></annotation>

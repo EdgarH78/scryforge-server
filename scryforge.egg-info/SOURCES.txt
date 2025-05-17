@@ -1,0 +1,9 @@
+setup.py
+scryforge/__init__.py
+scryforge/camera.py
+scryforge/detector.py
+scryforge/server.py
+scryforge.egg-info/PKG-INFO
+scryforge.egg-info/SOURCES.txt
+scryforge.egg-info/dependency_links.txt
+scryforge.egg-info/top_level.txt

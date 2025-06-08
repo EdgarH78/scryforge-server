@@ -55,6 +55,7 @@ weights/
 runs/
 *.weights
 *.pb
+dataset/
 
 # Logs and databases
 *.log

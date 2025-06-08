@@ -2,11 +2,7 @@ import torch
 import torchvision
 from torchvision.transforms import functional as F
 import numpy as np
-from segment_anything import sam_model_registry, SamPredictor
 import cv2
-import os
-import time
-import threading
 from dataclasses import dataclass
 from enum import Enum
 from typing import Optional, Tuple, List, Dict
@@ -165,47 +161,6 @@ class ArucoDetector:
 
         return result if result else None
         
-        
-
-    def get_outer_corners(self, image: np.ndarray) -> Optional[Dict[str, Tuple[float, float]]]:
-        """Get just the outer corners of the markers in clockwise order"""
-        ids, corners = self.detect_markers(image)
-        if len(ids) == 0:
-            return { }
-
-        # Create a mapping of marker ID to position name
-        position_map = {
-            0: 'top_left',
-            1: 'top_right', 
-            2: 'bottom_right',
-            3: 'bottom_left'
-        }
-
-        # Initialize result dictionary
-        result = {}
-
-        # Process each detected marker
-        for marker_id, marker_corners in zip(ids, corners):
-            # Skip if marker ID isn't one we're looking for
-            if marker_id not in position_map:
-                continue
-
-            # Get position name for this marker
-            position = position_map[marker_id]
-            
-            # Get the appropriate corner based on marker position
-            corner_idx = {
-                'top_left': 0,     # Use top-left corner of top-left marker
-                'top_right': 1,    # Use top-right corner of top-right marker
-                'bottom_right': 2, # Use bottom-right corner of bottom-right marker
-                'bottom_left': 3   # Use bottom-left corner of bottom-left marker
-            }[position]
-            
-            # Add corner coordinates to result
-            corner = marker_corners[0][corner_idx]
-            result[position] = (float(corner[0]), float(corner[1]))
-
-        return result if result else None
 
 class CnnBaseDetector(BaseDetector):
     def __init__(self, model_path="fasterrcnn_token_detector.pth"):

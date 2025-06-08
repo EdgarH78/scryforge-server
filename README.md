@@ -23,21 +23,36 @@ The repository includes:
 
 ## Features
 
-- Real-time camera feed processing
+- Real-time base detection API
 - Multiple base color detection (Red, Blue, Green, Violet, Yellow, Orange, etc.)
 - Camera calibration using ArUco markers
-- Adjustable camera settings (rotation, flip, scale)
-- Training data capture capabilities
-- Web-based user interface
-- Support for multiple cameras
+- Docker containerization
+- RESTful API endpoints
+- Support for image upload and processing
 
 ## System Requirements
 
 - Python 3.8+
 - CUDA-capable GPU (recommended for optimal performance)
-- Webcam or USB camera
+- Docker (optional, for containerized deployment)
+
+## Project Structure
+
+```
+scryforge/
+├── app/                # Main application directory
+│   ├── server.py      # Flask server and API endpoints
+│   ├── detector.py    # Detection implementations
+│   └── main.py        # Application entry point
+├── training/          # Training utilities
+├── dataset/          # Dataset for model training (not included)
+├── Dockerfile        # Docker configuration
+└── requirements.txt  # Python dependencies
+```
 
 ## Installation
+
+### Local Development
 
 1. Clone the repository:
 ```bash
@@ -56,95 +71,39 @@ source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-4. Download required model files:
-- Place `fasterrcnn_token_detector.pth` in the project root directory
-- Place `sam_vit_h_4b8939.pth` in the project root directory if using SAM features
+### Docker Deployment
 
-## Project Structure
-
-```
-scryforge/
-├── scryforge/           # Main package directory
-│   ├── detector.py     # Base detection implementation
-│   ├── camera.py       # Camera handling
-│   ├── server.py       # Flask server implementation
-│   ├── session.py      # Session management
-│   └── lens.py         # Image processing pipeline
-├── training/           # Training data directory
-├── dataset/           # Dataset for model training
-├── requirements.txt    # Project dependencies
-├── setup.py           # Package setup file
-└── main.py            # Application entry point
-```
-
-## Usage
-
-1. Start the server:
+1. Build the container:
 ```bash
-python main.py
+docker build -t scryforge .
 ```
 
-2. Open a web browser and navigate to:
-```
-http://localhost:5000
-```
-
-3. Use the web interface to:
-- Select and configure cameras
-- Toggle detection
-- Adjust camera settings
-- Capture training data
-- View detection results
-
-## Camera Calibration
-
-1. Print the ArUco markers (IDs 0-3)
-2. Place markers in clockwise order:
-   - ID 0: Top-left
-   - ID 1: Top-right
-   - ID 2: Bottom-right
-   - ID 3: Bottom-left
-3. Use the web interface to perform calibration
-
-## Training Data Collection
-
-The system can capture training data for improving detection accuracy:
-
-1. Enable training data capture in the web interface
-2. Position bases in the camera view
-3. Training images and labels are saved to:
-   - Images: `training/images/`
-   - Labels: `training/labels/`
-
-## Development
-
-### Running Tests
+2. Run the container:
 ```bash
-pytest
+docker run -p 5000:5000 scryforge
 ```
 
-### Code Structure
+## API Documentation
 
-- `detector.py`: Implements base detection using CNN models
-- `camera.py`: Handles camera initialization and frame capture
-- `server.py`: Implements the Flask web server and API endpoints
-- `session.py`: Manages application state and configuration
-- `lens.py`: Implements image processing pipeline
+The complete API specification is available in OpenAPI (Swagger) format in `swagger.yml`. You can view this documentation using any OpenAPI viewer or import it into tools like Postman.
 
-## License
+## API Endpoints
 
-This codebase is released under a dual license:
+### ArUco Marker Detection
+```http
+POST /image/arucolocations
+Content-Type: multipart/form-data
 
-1. **Open Source License** - MIT License
-   - You can use, modify, and distribute the code
-   - You can train your own models
-   - You must include the original copyright notice
+file: <image_file>
+```
 
-2. **Commercial License**
-   - Required for accessing our pre-trained models
-   - Includes commercial support
-   - Access to our hosted service
-   - Contact [your-contact] for pricing
+### Base Detection
+```http
+POST /image/categories/positions
+Content-Type: multipart/form-data
+
+file: <image_file>
+```
 
 ## Training Your Own Models
 

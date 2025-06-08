@@ -1,0 +1,130 @@
+openapi: 3.0.0
+info:
+  title: ScryForge API
+  description: API for detecting and classifying colored bases in images
+  version: 1.0.0
+  contact:
+    email: [your-email]
+servers:
+  - url: http://localhost:5000
+    description: Local development server
+paths:
+  /image/arucolocations:
+    post:
+      summary: Detect ArUco marker positions in an image
+      description: |
+        Detects ArUco markers (IDs 0-3) in the provided image and returns their positions.
+        Markers should be placed in clockwise order - ID 0 (top-left), ID 1 (top-right),
+        ID 2 (bottom-right), ID 3 (bottom-left).
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: Image file to analyze
+      responses:
+        '200':
+          description: Successful detection
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  positions:
+                    type: object
+                    properties:
+                      top_left:
+                        type: array
+                        items:
+                          type: number
+                        description: [x, y] coordinates of top-left marker
+                      top_right:
+                        type: array
+                        items:
+                          type: number
+                        description: [x, y] coordinates of top-right marker
+                      bottom_right:
+                        type: array
+                        items:
+                          type: number
+                        description: [x, y] coordinates of bottom-right marker
+                      bottom_left:
+                        type: array
+                        items:
+                          type: number
+                        description: [x, y] coordinates of bottom-left marker
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message
+
+  /image/categories/positions:
+    post:
+      summary: Detect bases in an image
+      description: |
+        Detects and classifies colored bases in the provided image.
+        Returns positions and categories of detected bases.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: Image file to analyze
+      responses:
+        '200':
+          description: Successful detection
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  positions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        category:
+                          type: string
+                          enum: [red, blue, green, violet, yellow, orange, turquoise, pink, white, black]
+                          description: Detected base category
+                        x:
+                          type: integer
+                          description: X coordinate in pixels
+                        y:
+                          type: integer
+                          description: Y coordinate in pixels
+                        width:
+                          type: integer
+                          description: Width in pixels
+                        height:
+                          type: integer
+                          description: Height in pixels
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message
+
+components:
+  schemas: {} 

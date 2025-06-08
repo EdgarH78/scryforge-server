@@ -1,4 +1,4 @@
-from scryforge.server import app
+from app.server import app
 
 
 if __name__ == "__main__":

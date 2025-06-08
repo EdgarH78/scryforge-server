@@ -1,0 +1,81 @@
+# .gitignore
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Distribution / packaging
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# PyCharm and VS Code
+.idea/
+.vscode/
+*.swp
+.history
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb_checkpoints/
+*.ipynb-meta
+
+# Training data and models
+*.pth
+*.pt
+*.onnx
+*.tflite
+*.h5
+training/images/
+training/labels/
+models/
+weights/
+runs/
+*.weights
+*.pb
+
+# Logs and databases
+*.log
+*.sqlite
+*.db
+logs/
+tmp/
+
+# System-specific files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Project-specific
+*.mp4
+*.avi
+*.mov
+*.jpg
+*.jpeg
+*.png
+*.gif
+!assets/*.jpg
+!assets/*.png
+!docs/images/

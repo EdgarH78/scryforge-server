@@ -32,12 +32,12 @@ jobs:
         run: |
           gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
 
-          - name: Build and push Docker image
-          run: |
-            IMAGE="us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/scryforge-images/scryforge-server"
-            docker build -t "$IMAGE" .
-            docker push "$IMAGE"
-        
+      - name: Build and push Docker image
+        run: |
+          IMAGE="us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/scryforge-images/scryforge-server"
+          docker build -t "$IMAGE" .
+          docker push "$IMAGE"
+    
       - name: Deploy to Cloud Run
         run: |
           IMAGE="us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/scryforge-images/scryforge-server"

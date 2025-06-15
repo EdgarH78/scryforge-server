@@ -3,7 +3,7 @@ from .detector import CnnBaseDetector, ArucoDetector
 import cv2
 import logging
 import time
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 import numpy as np
 
 
@@ -16,10 +16,23 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
-CORS(app)  # Enable for all routes
-session = None
+CORS(app, resources={r"/*": {"origins": "*"}})
 
-@app.route('/image/arucolocations', methods=['POST'])
+
+@app.route('/scryforge')
+def index():
+    return jsonify({'message': 'ScryForge API is running'})
+
+@app.route('/healthz')
+def health():
+    return "OK", 200
+
+@app.errorhandler(404)
+def not_found(e):
+    return jsonify({'error': 'Not Found'}), 404
+
+@app.route('/scryforge/api/v1/image/arucolocations', methods=['POST', 'OPTIONS'])
+@cross_origin()
 def get_aruco_positions():
     """POST /image/arucolocations - Get ArUco marker positions from image"""
     if 'image' not in request.files:
@@ -48,7 +61,8 @@ def get_aruco_positions():
         
     return jsonify({'positions': positions})
 
-@app.route('/image/categories/positions', methods=['POST'])
+@app.route('/scryforge/api/v1/image/categories/positions', methods=['POST', 'OPTIONS'])
+@cross_origin()
 def process_category_positions():
     """POST /image/categories/positions - Detect categories in uploaded image"""
     if 'image' not in request.files:

@@ -163,7 +163,7 @@ class ArucoDetector:
         
 
 class CnnBaseDetector(BaseDetector):
-    def __init__(self, model_path="fasterrcnn_token_detector.pth"):
+    def __init__(self, model_path="app/models/fasterrcnn_token_detector_scripted.pt"):
         self.bases = []
         self.last_image = None
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -177,12 +177,7 @@ class CnnBaseDetector(BaseDetector):
         )
         
         # Load the trained weights
-        checkpoint = torch.load(model_path, map_location=self.device)
-        if "model_state" in checkpoint:
-            self.model.load_state_dict(checkpoint["model_state"])
-        else:
-            self.model.load_state_dict(checkpoint)
-
+        self.model = torch.jit.load(model_path)
         self.model.to(self.device)
         self.model.eval()
         
@@ -250,9 +245,8 @@ class CnnBaseDetector(BaseDetector):
         image_tensor = F.to_tensor(image_rgb).unsqueeze(0).to(self.device)
 
         with torch.no_grad():
-            predictions = self.model(image_tensor)
+            pred = self.model(image_tensor)
 
-        pred = predictions[0]
         threshold = 0.5
         best_by_category = {}
 

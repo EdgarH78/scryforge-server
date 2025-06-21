@@ -45,5 +45,6 @@ jobs:
             --image "$IMAGE" \
             --platform managed \
             --region ${{ secrets.GCP_REGION }} \
-            --allow-unauthenticated
+            --allow-unauthenticated \
+            --update-secrets "JWT_SECRET_CURRENT=JWT_SECRET_CURRENT:latest,JWT_SECRET_NEXT=JWT_SECRET_NEXT:latest"
         

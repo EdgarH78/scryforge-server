@@ -11,6 +11,7 @@ from jwt.exceptions import InvalidTokenError
 from functools import wraps
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
+import threading
 
 
 JWT_SECRET_CURRENT = os.environ["JWT_SECRET_CURRENT"]
@@ -43,9 +44,21 @@ limiter = Limiter(
     headers_enabled=True  # optional but recommended
 )
 
-category_detector = CnnBaseDetector()
+category_detector = None
 aruco_detector = ArucoDetector()
+models_ready = False
 
+def load_models():
+    global category_detector, aruco_detector, models_ready
+    try:
+        category_detector = CnnBaseDetector()
+        models_ready = True
+        logger.info("✅ Models loaded successfully.")
+    except Exception as e:
+        logger.exception(f"❌ Failed to load models: {e}")
+
+# Start loading models in background
+threading.Thread(target=load_models, daemon=True).start()        
 
 def verify_jwt(token: str) -> dict:
     for secret in [JWT_SECRET_CURRENT, JWT_SECRET_NEXT]:
@@ -125,6 +138,9 @@ def process_category_positions():
     """POST /image/categories/positions - Detect categories in uploaded image"""
     if 'image' not in request.files:
         return jsonify({'error': 'No image file provided'}), 400
+    
+    if not models_ready:
+        return jsonify({"error": "Model still loading. Try again shortly."}), 503
         
     file = request.files['image']
     if not file.content_type.startswith('image/'):

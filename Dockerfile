@@ -15,4 +15,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY app ./app
 COPY app/models/fasterrcnn_token_detector_scripted.pt ./app/models/
 
-CMD gunicorn --bind 0.0.0.0:$PORT app.server:app
+CMD gunicorn --workers=1 --bind 0.0.0.0:$PORT app.server:app

@@ -25,5 +25,5 @@ segment-anything==1.0
 git+https://github.com/facebookresearch/segment-anything.git
 pytest==8.0.0
 albumentations==1.4.2
-Flask-Limiter==3.5.0
+Flask-Limiter==3.12
 gunicorn

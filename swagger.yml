@@ -6,16 +6,50 @@ info:
   contact:
     email: [your-email]
 servers:
-  - url: http://localhost:5000
+  - url: https://theforgerealm.com/scryforge  
+    description: Production server
+  - url: http://localhost:8000
     description: Local development server
 paths:
-  /image/arucolocations:
+  /scryforge:
+    get:
+      summary: API Status Check
+      description: Returns the current status of the ScryForge API
+      responses:
+        '200':
+          description: API is running
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "ScryForge API is running"
+
+  /healthz:
+    get:
+      summary: Health Check
+      description: Simple health check endpoint
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "OK"
+
+  /scryforge/api/v1/image/arucolocations:
     post:
       summary: Detect ArUco marker positions in an image
       description: |
         Detects ArUco markers (IDs 0-3) in the provided image and returns their positions.
         Markers should be placed in clockwise order - ID 0 (top-left), ID 1 (top-right),
         ID 2 (bottom-right), ID 3 (bottom-left).
+        **Rate Limited:** 20 requests per second
+      security:
+        - BearerAuth: []
       requestBody:
         required: true
         content:
@@ -23,7 +57,7 @@ paths:
             schema:
               type: object
               properties:
-                file:
+                image:
                   type: string
                   format: binary
                   description: Image file to analyze
@@ -68,13 +102,36 @@ paths:
                   error:
                     type: string
                     description: Error message
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Authentication error message
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Rate limit error message
 
-  /image/categories/positions:
+  /scryforge/api/v1/image/categories/positions:
     post:
       summary: Detect bases in an image
       description: |
         Detects and classifies colored bases in the provided image.
         Returns positions and categories of detected bases.
+        **Rate Limited:** 2 requests per second
+      security:
+        - BearerAuth: []
       requestBody:
         required: true
         content:
@@ -82,7 +139,7 @@ paths:
             schema:
               type: object
               properties:
-                file:
+                image:
                   type: string
                   format: binary
                   description: Image file to analyze
@@ -125,6 +182,45 @@ paths:
                   error:
                     type: string
                     description: Error message
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Authentication error message
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Rate limit error message
+        '503':
+          description: Service unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Service unavailable message
 
 components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        JWT token required for authentication. 
+        Include the token in the Authorization header as "Bearer <token>"
+  
   schemas: {} 

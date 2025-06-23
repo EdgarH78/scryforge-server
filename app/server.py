@@ -31,6 +31,18 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
+@app.after_request
+def add_cors_headers(response):
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+    response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+    return response
+
+@app.route('/scryforge/api/v1/image/arucolocations', methods=["OPTIONS"])
+@app.route('/scryforge/api/v1/image/categories/positions', methods=["OPTIONS"])
+def preflight():
+    return '', 204
+
 def get_patron_id():
     user = getattr(request, 'user', None)
     if not user or 'sub' not in user:
@@ -99,10 +111,9 @@ def health():
 def not_found(e):
     return jsonify({'error': 'Not Found'}), 404
 
-@app.route('/scryforge/api/v1/image/arucolocations', methods=['POST', 'OPTIONS'])
+@app.route('/scryforge/api/v1/image/arucolocations', methods=['POST'])
 @jwt_required
 @limiter.limit("20 per second")
-@cross_origin()
 def get_aruco_positions():
     """POST /image/arucolocations - Get ArUco marker positions from image"""
     if 'image' not in request.files:
@@ -130,10 +141,9 @@ def get_aruco_positions():
         
     return jsonify({'positions': positions})
 
-@app.route('/scryforge/api/v1/image/categories/positions', methods=['POST', 'OPTIONS'])
+@app.route('/scryforge/api/v1/image/categories/positions', methods=['POST'])
 @jwt_required
 @limiter.limit("2 per second")
-@cross_origin()
 def process_category_positions():
     """POST /image/categories/positions - Detect categories in uploaded image"""
     if 'image' not in request.files:

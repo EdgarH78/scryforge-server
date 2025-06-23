@@ -14,8 +14,8 @@ from flask_limiter.util import get_remote_address
 import threading
 
 
-JWT_SECRET_CURRENT = os.environ.get("JWT_SECRET_CURRENT")
-JWT_SECRET_NEXT = os.environ.get("JWT_SECRET_NEXT")
+JWT_SECRET_CURRENT = os.environ.get("JWT_SECRET_CURRENT").strip()
+JWT_SECRET_NEXT = os.environ.get("JWT_SECRET_NEXT").strip()
 #use these for testing locally
 #JWT_SECRET_CURRENT = "1234567890"
 #JWT_SECRET_NEXT = "1234567890"
